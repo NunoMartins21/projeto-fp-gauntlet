@@ -1,6 +1,3 @@
-from _typeshed import Self
-
-
 import json
 
 """
@@ -11,7 +8,7 @@ A class for managing in-game settings such as screen size, controllers, and othe
 game functionalities and bahaviours.
 """
 class Settings:
-    def exception_handler(self, func):
+    def exception_handler(func):
         def inner(*args, **kwargs):
             try:
                 func(*args, **kwargs)
@@ -20,20 +17,18 @@ class Settings:
         return inner
 
     @exception_handler
-    def __init__(self, file = "settings.json") -> Self:
+    def __init__(self, file = "./settings.json"):
         with open(file, "r") as f:
             self.file = file
             self.settings = json.load(f)
-        return self
 
     @exception_handler
-    def save(self, file = None) -> Self:
+    def save(self, file = None):
         with open(file if file else self.file, "w+") as f:
             json.dump(self.settings, f)
-        return self
 
     @exception_handler
-    def update(self, name, *args) -> Self:
+    def update(self, name, *args):
         func = {
             "file": self.update_file,
             "value": self.update_value
@@ -41,11 +36,9 @@ class Settings:
         return func(*args)
 
     @exception_handler
-    def update_file(self, file) -> Self:
+    def update_file(self, file):
         self.file = file
-        return self
 
     @exception_handler
-    def update_value(self, key, value) -> Self:
+    def update_value(self, key, value):
         self.settings[key] = value
-        return self
