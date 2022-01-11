@@ -1,4 +1,5 @@
 import json
+from ...utils.exception_handler import exception_handler
 
 """
 Settings
@@ -8,14 +9,6 @@ A class for managing in-game settings such as screen size, controllers, and othe
 game functionalities and bahaviours.
 """
 class Settings:
-    def exception_handler(func):
-        def inner(*args, **kwargs):
-            try:
-                func(*args, **kwargs)
-            except Exception as err:
-                print(f"[Settings] Something went wrong! - {err}")
-        return inner
-
     @exception_handler
     def __init__(self, file = "./settings.json"):
         with open(file, "r") as f:
