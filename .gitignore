@@ -1,0 +1,4 @@
+# Byte-compiled / optimized / DLL files
+src/utils/__pycache__/*
+src/classes/game/__pycache__/*
+*.py[cod]

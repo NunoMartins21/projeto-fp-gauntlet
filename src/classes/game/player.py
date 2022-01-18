@@ -1,4 +1,4 @@
-from pygame.constants import K_DOWN, K_LEFT, K_RIGHT, K_UP
+from pygame.constants import K_DOWN, K_LEFT, K_RIGHT, K_UP, K_RCTRL, K_LCTRL
 from ...utils.spritesheet import SpriteSheet
 from ...utils.exception_handler import exception_handler
 from ...utils.constants import ELF, RIGHT, UP, DOWN, LEFT, VALKYRIE, WARRIOR, WIZARD
@@ -68,25 +68,27 @@ class Player(pygame.sprite.Sprite):
 
     @exception_handler
     def update(self, pressed_keys, width, height):
+        nr_movement = 10 if (pressed_keys[K_LCTRL] or pressed_keys[K_RCTRL]) else 5
+
         if pressed_keys[K_UP]:
             self.direction = UP
-            self.y -= 5
+            self.y -= nr_movement
         if pressed_keys[K_DOWN]:
             self.direction = DOWN
-            self.y += 5
+            self.y += nr_movement
         if pressed_keys[K_LEFT]:
             self.direction = LEFT
-            self.x -= 5
+            self.x -= nr_movement
         if pressed_keys[K_RIGHT]:
             self.direction = RIGHT
-            self.x += 5
+            self.x += nr_movement
 
         # Keep player on the screen
         if self.x < 0:
             self.x = 0
-        if self.x > width:
-            self.x = width
+        if self.rect.topright[0] > width:
+            self.x = width - self.rect.size[0] - 1
         if self.y <= 0:
             self.y = 0
-        if self.y >= height:
-            self.y = height
+        if self.rect.bottom >= height:
+            self.y = height - self.rect.size[1] - 1
